@@ -1,0 +1,497 @@
+Below is the component for your context <!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Aetheria Sanctuary | Archival Wellness &amp; Spa</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+   
+  <style>
+    .animate-on-scroll-hidden {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .animate-on-scroll-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .hero-text-stagger {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .image-zoom-reveal {
+      transform: scale(1.15);
+      transition: transform 2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    
+    .image-zoom-reveal.active {
+      transform: scale(1);
+    }
+
+    .reveal-overlay {
+      position: absolute;
+      inset: 0;
+      background: #F9F4E8;
+      z-index: 15;
+      transform-origin: bottom;
+      transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    
+    .reveal-overlay.active {
+      transform: scaleY(0);
+    }
+
+    .custom-cursor {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #4A3728;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.1s ease;
+    }
+  </style>
+<style type="text/tailwindcss">@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-brand-primary bg-vintage-cream;
+  }
+}
+
+.line-animation {
+  width: 0;
+  height: 1px;
+  background-color: #4A3728;
+  transition: width 1s ease-out;
+}
+
+.animate-line .line-animation {
+  width: 100%;
+}
+
+::selection {
+  background-color: #4A3728;
+  color: #F9F4E8;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F9F4E8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4A3728;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8B4513;
+}</style><script src="https://cdn.tailwindcss.com"></script><script>tailwind.config = {
+  important: '#app-root',
+  theme: {
+    extend: {
+      colors: {
+        'brand-primary': '#4A3728',
+        'vintage-cream': '#F9F4E8',
+        'vintage-paper': '#E8DCC4',
+        'vintage-accent': '#8B4513',
+        'text-primary': '#2C241E',
+        'salon-accent': '#8B4513',
+        'salon-text': '#2C241E',
+      },
+      fontFamily: {
+        'primary': ['Playfair Display', 'serif'],
+        'secondary': ['Instrument Serif', 'serif'],
+        'body': ['Courier New', 'serif'],
+      },
+      letterSpacing: {
+        'tightest': '-0.01em',
+        'widest-xl': '0.3em',
+      },
+      boxShadow: {
+        'logo-card': '0px 0px 15px 0px rgba(74, 55, 40, 0.1)',
+      }
+    }
+  }
+}</script></head>
+<body id="app-root">
+
+  <div class="font-body bg-vintage-cream text-text-primary overflow-x-hidden min-h-screen flex flex-col w-full relative">
+    
+    <header class="fixed top-0 left-0 w-full z-50 pointer-events-none">
+      <div id="header-component" class="relative w-full h-[100px] flex items-center px-4 md:px-[62px] pointer-events-auto">
+        <div class="max-w-[1920px] mx-auto w-full flex items-center h-full relative">
+            
+            <!-- Logo Box -->
+            <div class="absolute left-1/2 -translate-x-1/2 bg-vintage-cream/90 backdrop-blur-sm border border-vintage-accent/10 shadow-logo-card rounded-[2px] flex items-center px-[32px] py-[14px] min-w-[280px] h-[64px] pointer-events-auto">
+                <a href="/" class="flex items-center gap-4 w-full justify-center">
+                  <span class="font-primary text-xl tracking-[0.2em] text-brand-primary uppercase font-bold">Aetheria</span>
+                </a>
+                
+                <button data-trigger="mobile-menu" class="absolute right-[14px] w-[32px] h-[32px] flex items-center justify-center hover:opacity-70 transition-opacity">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-brand-primary">
+                      <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Booking Button -->
+            <div class="ml-auto hidden md:block">
+              <a href="#booking" class="bg-brand-primary flex items-center justify-center px-[32px] h-[56px] min-w-[160px] hover:bg-zinc-800 transition-colors pointer-events-auto">
+                  <span class="font-secondary text-[22px] leading-[28px] text-vintage-cream font-normal uppercase italic">
+                      Reserve Silence
+                  </span>
+              </a>
+            </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Overlay -->
+      <div id="mobile-menu" class="fixed inset-0 bg-brand-primary z-[60] flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-500">
+        <button data-trigger="close-menu" class="absolute top-8 right-8 text-vintage-cream">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <nav class="flex flex-col items-center gap-8">
+          <a href="#" class="font-primary text-4xl text-vintage-cream hover:italic transition-all">The Rituals</a>
+          <a href="#" class="font-primary text-4xl text-vintage-cream hover:italic transition-all">Our Philosophy</a>
+          <a href="#" class="font-primary text-4xl text-vintage-cream hover:italic transition-all">The Sanctuary</a>
+          <a href="#" class="font-primary text-4xl text-vintage-cream hover:italic transition-all">Curated Apothecary</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-grow"><section class="flex flex-col lg:flex-row h-screen min-h-[800px] bg-vintage-cream overflow-hidden border-b border-vintage-paper">
+  <div class="flex-1 flex flex-col justify-center items-center text-center p-8 lg:p-24 border-r border-vintage-paper">
+    <span class="font-body text-sm uppercase tracking-[0.4em] text-vintage-accent mb-6 hero-text-stagger" style="animation-delay: 0.3s;">The Art of Rest</span>
+    <h1 class="font-primary text-5xl lg:text-8xl font-bold mb-8 leading-[0.9] text-brand-primary hero-text-stagger" style="animation-delay: 0.5s;">Archival<br>Wellness</h1>
+    <p class="font-secondary text-3xl lg:text-5xl italic leading-[1.1] mb-12 text-text-primary hero-text-stagger" style="animation-delay: 0.7s;">
+      Slowing time.<br>Restoring the essence.<br>Traditional rituals for<br>the modern spirit.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-6 hero-text-stagger" style="animation-delay: 0.9s;">
+      <a href="#rituals" class="bg-brand-primary text-vintage-cream px-12 py-5 font-secondary text-2xl hover:bg-vintage-accent transition-all shadow-xl">
+        View Rituals
+      </a>
+      <a href="#" class="border border-brand-primary text-brand-primary px-12 py-5 font-secondary text-2xl hover:bg-brand-primary hover:text-white transition-all italic">
+        Our Story
+      </a>
+    </div>
+    <div class="mt-16 opacity-40">
+      <p class="font-body text-[10px] uppercase tracking-[0.3em]">Pure Botanicals • Ancient Wisdom • Uninterrupted Silence</p>
+    </div>
+  </div>
+  <div class="flex-1 relative bg-vintage-paper overflow-hidden">
+    <div class="reveal-overlay hero-overlay-el"></div>
+    <div class="absolute inset-0 bg-brand-primary/5 z-10"></div>
+    <img src="https://images.pexels.com/photos/32504789/pexels-photo-32504789.jpeg?w=1200&amp;h=1600&amp;fit=crop" alt="Aetheria Sanctuary Pool" class="w-full h-full object-cover sepia-[0.2] image-zoom-reveal hero-zoom-el">
+    <div class="absolute bottom-12 right-12 z-20 bg-vintage-cream/80 backdrop-blur p-8 border border-vintage-accent/20 hidden md:block hero-text-stagger" style="animation-delay: 1.2s;">
+        <p class="font-primary text-2xl italic text-brand-primary">"Where memory meets stillness."</p>
+    </div>
+  </div>
+</section>
+
+<!-- Principles Section -->
+<section class="py-24 lg:py-40 bg-vintage-cream px-6">
+  <div class="max-w-[1440px] mx-auto">
+    <div class="flex flex-col lg:flex-row gap-16 items-start">
+      <div class="lg:w-1/3" data-animation-on-scroll="">
+        <span class="font-body text-xs uppercase tracking-widest-xl text-vintage-accent block mb-8">— Volume I: The Philosophy</span>
+        <h2 class="font-primary text-4xl lg:text-6xl leading-tight text-brand-primary">The Archival Method to Healing</h2>
+      </div>
+      <div class="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24" data-animation-on-scroll="">
+        <div class="space-y-6">
+          <span class="font-body text-sm font-bold opacity-30">01.</span>
+          <h3 class="font-primary text-3xl text-brand-primary">Documented Tradition</h3>
+          <p class="font-body text-base leading-relaxed text-text-primary opacity-80">
+            We curate rituals from centuries of documented apothecary wisdom. Every treatment is an echo of a practice once lost to the pace of industry.
+          </p>
+        </div>
+        <div class="space-y-6">
+          <span class="font-body text-sm font-bold opacity-30">02.</span>
+          <h3 class="font-primary text-3xl text-brand-primary">Atmospheric Silence</h3>
+          <p class="font-body text-base leading-relaxed text-text-primary opacity-80">
+            Silence is our primary medium. Within the heavy stone walls of our sanctuary, the outside world is not just forgotten—it ceases to exist.
+          </p>
+        </div>
+        <div class="space-y-6">
+          <span class="font-body text-sm font-bold opacity-30">03.</span>
+          <h3 class="font-primary text-3xl text-brand-primary">Sensory Provenance</h3>
+          <p class="font-body text-base leading-relaxed text-text-primary opacity-80">
+            From hand-pressed oils to period-correct textiles, every tactile element is sourced with a focus on its origin and historical significance.
+          </p>
+        </div>
+        <div class="space-y-6">
+          <span class="font-body text-sm font-bold opacity-30">04.</span>
+          <h3 class="font-primary text-3xl text-brand-primary">Temporal Restoration</h3>
+          <p class="font-body text-base leading-relaxed text-text-primary opacity-80">
+            We don't just treat the body; we restore the sense of time. Our rituals are deliberate, slow, and unhurried by the clock.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Rituals Gallery -->
+<section id="rituals" class="bg-vintage-paper py-24 lg:py-40 px-6">
+  <div class="max-w-[1440px] mx-auto">
+    <div class="flex justify-between items-end mb-16 lg:mb-24" data-animation-on-scroll="">
+      <div>
+        <span class="font-body text-xs uppercase tracking-widest-xl text-vintage-accent block mb-4">Core Collection</span>
+        <h2 class="font-primary text-4xl lg:text-7xl text-brand-primary italic">Signature Rituals</h2>
+      </div>
+      <a href="#" class="font-body text-xs uppercase tracking-widest border-b border-brand-primary pb-2 mb-4 hover:opacity-60 transition-opacity hidden md:block">Catalogue Index</a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Ritual 01 -->
+      <div class="group cursor-pointer" data-animation-on-scroll="">
+        <div class="relative overflow-hidden aspect-[3/4] mb-8">
+          <div class="absolute inset-0 bg-brand-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+          <img src="https://images.pexels.com/photos/10976260/pexels-photo-10976260.jpeg?w=800&amp;h=1200&amp;fit=crop" alt="The Obsidian Ritual" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+          <span class="absolute top-6 left-6 z-20 font-body text-[10px] text-white uppercase tracking-widest bg-brand-primary/40 backdrop-blur px-3 py-1">Code: 094-R</span>
+        </div>
+        <h3 class="font-primary text-2xl text-brand-primary mb-4 group-hover:italic transition-all">The Obsidian Ritual</h3>
+        <p class="font-secondary text-xl italic opacity-70 mb-6">Deep tissue restoration using heated volcanic stones and archival resins.</p>
+        <div class="w-full h-[1px] bg-brand-primary/10"></div>
+      </div>
+
+      <!-- Ritual 02 -->
+      <div class="group cursor-pointer" data-animation-on-scroll="" style="transition-delay: 0.2s;">
+        <div class="relative overflow-hidden aspect-[3/4] mb-8">
+          <div class="absolute inset-0 bg-brand-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+          <img src="https://images.pexels.com/photos/1317124/pexels-photo-1317124.jpeg?w=800&amp;h=1200&amp;fit=crop" alt="Ether Bathing" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+          <span class="absolute top-6 left-6 z-20 font-body text-[10px] text-white uppercase tracking-widest bg-brand-primary/40 backdrop-blur px-3 py-1">Code: 112-B</span>
+        </div>
+        <h3 class="font-primary text-2xl text-brand-primary mb-4 group-hover:italic transition-all">Ether Bathing</h3>
+        <p class="font-secondary text-xl italic opacity-70 mb-6">Hydro-therapy in mineral-rich waters infused with mountain botanicals.</p>
+        <div class="w-full h-[1px] bg-brand-primary/10"></div>
+      </div>
+
+      <!-- Ritual 03 -->
+      <div class="group cursor-pointer" data-animation-on-scroll="" style="transition-delay: 0.4s;">
+        <div class="relative overflow-hidden aspect-[3/4] mb-8">
+          <div class="absolute inset-0 bg-brand-primary/20 opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
+          <img src="https://images.pexels.com/photos/6732390/pexels-photo-6732390.jpeg?w=800&amp;h=1200&amp;fit=crop" alt="The Archive Facial" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+          <span class="absolute top-6 left-6 z-20 font-body text-[10px] text-white uppercase tracking-widest bg-brand-primary/40 backdrop-blur px-3 py-1">Code: 045-F</span>
+        </div>
+        <h3 class="font-primary text-2xl text-brand-primary mb-4 group-hover:italic transition-all">The Archive Facial</h3>
+        <p class="font-secondary text-xl italic opacity-70 mb-6">Complexion resurfacing using 19th-century cold-press extracts.</p>
+        <div class="w-full h-[1px] bg-brand-primary/10"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Sanctuary (Split Editorial) -->
+<section class="bg-vintage-cream py-24 lg:py-40">
+  <div class="max-w-[1440px] mx-auto px-6">
+    <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-32">
+      <div class="flex-1 space-y-12" data-animation-on-scroll="">
+        <span class="font-body text-xs uppercase tracking-widest-xl text-vintage-accent block">— Location: Highlands</span>
+        <h2 class="font-primary text-4xl lg:text-7xl text-brand-primary leading-tight">A House of Heavy Stone</h2>
+        <p class="font-secondary text-2xl lg:text-4xl italic text-text-primary leading-relaxed opacity-90">
+          "The walls here are three feet thick. They were built to keep the weather out, but they serve better to keep the modern world at bay."
+        </p>
+        <div class="grid grid-cols-2 gap-8 py-8 border-y border-brand-primary/10">
+          <div>
+            <h4 class="font-body text-[10px] uppercase tracking-widest opacity-50 mb-2">Structure</h4>
+            <p class="font-primary text-xl">Pre-war Stone Manor</p>
+          </div>
+          <div>
+            <h4 class="font-body text-[10px] uppercase tracking-widest opacity-50 mb-2">Ambiance</h4>
+            <p class="font-primary text-xl">Controlled Darkness</p>
+          </div>
+        </div>
+        <button class="font-body text-sm uppercase tracking-widest text-brand-primary border-b border-brand-primary pb-2 hover:opacity-60 transition-opacity">Explore the Estate</button>
+      </div>
+      <div class="flex-1 relative" data-animation-on-scroll="">
+        <div class="aspect-square bg-vintage-paper overflow-hidden relative shadow-2xl">
+           <img src="https://images.pexels.com/photos/36167628/pexels-photo-36167628.jpeg?w=1000&amp;h=1000&amp;fit=crop" alt="Sanctuary Corridor" class="w-full h-full object-cover sepia-[0.1]">
+           <div class="absolute inset-0 border-[24px] border-vintage-cream/20"></div>
+        </div>
+        <div class="absolute -bottom-12 -left-12 bg-brand-primary text-vintage-cream p-12 max-w-xs hidden lg:block">
+           <p class="font-body text-xs leading-relaxed">Each corridor in the sanctuary is designed with acoustic precision to ensure absolute sensory deprivation between treatment suites.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials / Memoirs -->
+<section class="py-24 lg:py-40 bg-brand-primary text-vintage-cream overflow-hidden">
+  <div class="max-w-[1440px] mx-auto px-6 relative">
+    <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none flex items-center justify-center">
+       <span class="font-primary text-[400px] leading-none select-none">MEMOIRS</span>
+    </div>
+    
+    <div class="text-center mb-24" data-animation-on-scroll="">
+      <span class="font-body text-xs uppercase tracking-widest-xl text-vintage-paper/60 mb-6 block">— The Experience</span>
+      <h2 class="font-primary text-4xl lg:text-6xl">Letters from the Archive</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 relative z-10">
+      <div class="space-y-8" data-animation-on-scroll="">
+        <p class="font-secondary text-3xl italic leading-relaxed opacity-90">"I entered as a fragmented collection of stresses and left as a singular, quiet being. The Obsidian Ritual is less of a massage and more of a spiritual recalibration."</p>
+        <div>
+          <h4 class="font-primary text-lg">Julian V.</h4>
+          <span class="font-body text-[10px] uppercase tracking-widest opacity-50">Guest 2024 • London</span>
+        </div>
+      </div>
+      
+      <div class="space-y-8" data-animation-on-scroll="" style="transition-delay: 0.2s;">
+        <p class="font-secondary text-3xl italic leading-relaxed opacity-90">"The silence here has a weight to it. It’s physical. For the first time in years, I could hear my own thoughts without the static of the digital world."</p>
+        <div>
+          <h4 class="font-primary text-lg">Elena M.</h4>
+          <span class="font-body text-[10px] uppercase tracking-widest opacity-50">Guest 2023 • Zurich</span>
+        </div>
+      </div>
+
+      <div class="space-y-8" data-animation-on-scroll="" style="transition-delay: 0.4s;">
+        <p class="font-secondary text-3xl italic leading-relaxed opacity-90">"Every detail—from the weight of the linen to the scent of the pressed flowers—feels intentional. Aetheria is a masterpiece of curation."</p>
+        <div>
+          <h4 class="font-primary text-lg">Arthur C.</h4>
+          <span class="font-body text-[10px] uppercase tracking-widest opacity-50">Guest 2024 • Paris</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Booking CTA -->
+<section id="booking" class="py-24 lg:py-40 bg-vintage-paper border-y border-vintage-accent/10 px-6">
+  <div class="max-w-[1000px] mx-auto text-center" data-animation-on-scroll="">
+    <span class="font-body text-xs uppercase tracking-widest-xl text-vintage-accent mb-8 block">Final Volume</span>
+    <h2 class="font-primary text-5xl lg:text-8xl text-brand-primary mb-12">Return to the Self</h2>
+    <p class="font-secondary text-3xl lg:text-4xl italic text-text-primary mb-16 max-w-2xl mx-auto opacity-80">Our archive is small and our suites are limited to ensure complete privacy.</p>
+    
+    <div class="bg-vintage-cream p-12 lg:p-20 shadow-2xl relative">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
+        <div class="space-y-4">
+          <label class="font-body text-[10px] uppercase tracking-widest opacity-60">Full Name</label>
+          <input type="text" placeholder="Entry name" class="w-full bg-transparent border-b border-brand-primary/20 py-4 font-primary text-2xl focus:outline-none focus:border-brand-primary transition-colors">
+        </div>
+        <div class="space-y-4">
+          <label class="font-body text-[10px] uppercase tracking-widest opacity-60">Ritual Interest</label>
+          <select class="w-full bg-transparent border-b border-brand-primary/20 py-4 font-primary text-2xl focus:outline-none focus:border-brand-primary appearance-none transition-colors">
+            <option>The Obsidian Ritual</option>
+            <option>Ether Bathing</option>
+            <option>The Archive Facial</option>
+          </select>
+        </div>
+      </div>
+      <button class="mt-16 w-full md:w-auto bg-brand-primary text-vintage-cream px-20 py-6 font-secondary text-3xl hover:bg-zinc-800 transition-all">
+        Request Invitation
+      </button>
+    </div>
+    
+    <p class="mt-12 font-body text-[10px] uppercase tracking-widest opacity-40">Responses typically delivered via post or encrypted mail within 48 hours.</p>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Page specific interaction if needed
+  });
+</script></main>
+
+    <footer class="bg-brand-primary text-vintage-cream pt-24 pb-12">
+      <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
+          <div class="col-span-1 md:col-span-2">
+            <h2 class="font-primary text-3xl lg:text-5xl mb-8">Aetheria</h2>
+            <p class="font-secondary text-2xl italic max-w-md opacity-80 leading-relaxed">
+              A curated archive of wellness practices, preserved for the modern soul seeking stillness.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-body text-xs uppercase tracking-widest mb-8 text-vintage-paper/60">Sanctuary Locations</h4>
+            <ul class="space-y-4 font-body text-sm">
+              <li>Highlands Estate, Scotland</li>
+              <li>Minimalist Retreat, Kyoto</li>
+              <li>Aged Manor, Cotswolds</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-body text-xs uppercase tracking-widest mb-8 text-vintage-paper/60">Connect</h4>
+            <ul class="space-y-4 font-body text-sm">
+              <li>Instagram</li>
+              <li>The Journal</li>
+              <li>Contact Us</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="border-t border-vintage-paper/10 pt-12 flex flex-col md:row justify-between items-center gap-6">
+          <p class="font-body text-[10px] uppercase tracking-widest opacity-40">© 2024 Aetheria Sanctuary. Established 1924. All Rights Reserved.</p>
+          <div class="flex gap-8">
+            <a href="#" class="font-body text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">Privacy Policy</a>
+            <a href="#" class="font-body text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">Terms of Archive</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hero Entrance Logic
+      setTimeout(() => {
+        document.querySelectorAll('.hero-overlay-el').forEach(el => el.classList.add('active'));
+        document.querySelectorAll('.hero-zoom-el').forEach(el => el.classList.add('active'));
+      }, 100);
+
+      // Scroll animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-on-scroll-visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('[data-animation-on-scroll]').forEach(el => {
+        el.classList.add('animate-on-scroll-hidden');
+        observer.observe(el);
+      });
+
+      // Hamburger logic
+      const menuTrigger = document.querySelector('[data-trigger="mobile-menu"]');
+      const closeTrigger = document.querySelector('[data-trigger="close-menu"]');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      const toggleMenu = (show) => {
+        if (show) {
+          mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+          mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+        } else {
+          mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+          mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+        }
+      };
+
+      menuTrigger?.addEventListener('click', () => toggleMenu(true));
+      closeTrigger?.addEventListener('click', () => toggleMenu(false));
+    });
+  </script>
+
+
+</body></html>

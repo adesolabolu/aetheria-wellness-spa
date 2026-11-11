@@ -1,0 +1,6 @@
+{
+  "name": "Aetheria Sanctuary | Archival Wellness & Spa",
+  "description": "A curated archive of traditional wellness rituals, botanical apothecary formulations, and acoustic stone sanctuaries preserved for modern stillness.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
